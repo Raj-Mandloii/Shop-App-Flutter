@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
+import 'package:shop_app/screens/CartScreen.dart';
+import '../widgets/app_drawer.dart';
 import 'package:shop_app/widgets/customBadge.dart';
 import '../widgets/products_grid.dart';
 // adding provider in root file
@@ -33,8 +35,10 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                 color: Colors.red,
               ),
               child: IconButton(
-                icon: Icon(Icons.shopping_cart),
-                onPressed: () {},
+                icon: const Icon(Icons.shopping_cart),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(CartScreen.routeName);
+                },
               ),
             ),
             Padding(
@@ -65,6 +69,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
             ),
           ],
         ),
+        drawer: const AppDrawer(),
         body: ProductsGrid(_showOnlyFavourite));
   }
 }
