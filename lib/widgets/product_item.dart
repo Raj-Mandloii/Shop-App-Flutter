@@ -16,13 +16,13 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     // 1st way of consuming data
     //  final product = Provider.of<Product>(context);
-     final cart = Provider.of<Cart>(context,listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
 
     // alternate way to wrap the part of widget to consumer widget.
     // example below ==>
     return Consumer<Product>(
-      // about child 
-      // you can pass child in consumer 
+      // about child
+      // you can pass child in consumer
       // however the child never changes
       builder: (context, product, child) => ClipRRect(
         borderRadius: BorderRadius.circular(15),
@@ -45,6 +45,19 @@ class ProductItem extends StatelessWidget {
                 icon: const Icon(Icons.shopping_bag),
                 onPressed: () {
                   cart.addItem(product.id, product.price, product.title);
+                  // context estaiblish connection between nearet widget.
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        "Item added to cart.",
+                      ),
+                      duration: const Duration(seconds: 2),
+                      action: SnackBarAction(label: "Undo", onPressed: () {
+                        cart.removeSingleItem(product.id);
+                      }),
+                    ),
+                  );
                 },
                 color: Theme.of(context).accentColor,
               ),
