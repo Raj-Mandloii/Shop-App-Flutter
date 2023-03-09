@@ -38,18 +38,38 @@ class Products with ChangeNotifier {
           'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
     ),
   ];
-  
+
   List<Product> get items {
-    
     return [..._items];
   }
 
   List<Product> get favouriteItems {
     return _items.where((element) => element.isFavourite).toList();
-
   }
-  void addProduct(value) {
-    _items.add(value);
+
+  void addProduct(Product product) {
+    final newProduct = Product(
+        id: product.title,
+        title: product.title,
+        price: product.price,
+        description: product.description,
+        imageUrl: product.imageUrl);
+
+    // _items.add(newProduct); // to add at the end.
+    _items.insert(0, newProduct); // to add prod at the beginning.
+    notifyListeners();
+  }
+
+  void updateProduct(String id, Product newProduct) {
+    final prodIndex = _items.indexWhere((prod) => prod.id == id);
+    if (prodIndex >= 0) {
+      _items[prodIndex] = newProduct;
+      notifyListeners();
+    } else {}
+  }
+
+  void deleteProduct(String id) {
+    _items.removeWhere((element) => element.id == id);
     notifyListeners();
   }
 
