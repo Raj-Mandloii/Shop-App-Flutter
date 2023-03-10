@@ -81,9 +81,12 @@ class _EditProductState extends State<EditProduct> {
           .updateProduct(_editedProduct.id, _editedProduct);
     } else {
       // add.
+      
       Provider.of<Products>(context, listen: false)
-          .addProduct(_editedProduct)
-          .then((_) => Navigator.of(context).pop());
+          .addProduct(_editedProduct);
+          // .then((_) => 
+          Navigator.of(context).pop();
+          // );
     }
     // now to navigate back to the previous page
   }

@@ -8,16 +8,15 @@ const { authentication } = require("./middlewares/authentication");
 const app = express();
 app.use(express.json());
 app.use(cors());
-
 app.use("/user", userController);
 app.use("/product", productController);
 // app.use('/orders',productController)
-
-app.listen(process.env.PORT, async () => {
+  const PORT = process.env.PORT || 8080;
+app.listen(PORT, async () => {
   try {
     await connection;
     console.log("Connected to DB");
   } catch (err) {
-    console.log("Connected to DB");
+    console.log("Failed to Connect to DB");
   }
 });

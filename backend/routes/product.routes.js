@@ -57,8 +57,9 @@ productController.get("/", async (req, res) => {
 });
 
 productController.post("/create", async (req, res) => {
+  console.log("BODY +++++++++++++++++++++++",req.body);
   const newProd = new ProductModel(req.body);
-  console.log(newProd);
+
   try {
     await newProd.save();
     res.status(201).send("New Product created");

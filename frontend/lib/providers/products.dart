@@ -48,11 +48,9 @@ class Products with ChangeNotifier {
     return _items.where((element) => element.isFavourite).toList();
   }
 
-  Future<void> addProduct(Product product) async {
-    // const url = 'https://my-shop-flutter.firebseio.com/products.json';
-
-    final url = Uri.https('My-Shop-Flutter.firebaseio.com', '/products.json');
-    return http
+  addProduct(Product product) {
+    final url = Uri.https('dark-eel-cardigan.cyclic.app', '/product/create');
+    http
         .post(
       url,
       body: json.encode({
@@ -64,8 +62,7 @@ class Products with ChangeNotifier {
       }),
     )
         .then((res) {
-      // print('Response status: ${res.statusCode}');
-      // print('Response body: ${res.body}');
+      print(json.decode(res.body));
       final newProduct = Product(
           id: product.title,
           title: product.title,
@@ -77,6 +74,8 @@ class Products with ChangeNotifier {
       _items.insert(0, newProduct); // to add prod at the beginning.
 
       notifyListeners();
+    }).catchError((e) {
+      print(e);
     });
   }
 
