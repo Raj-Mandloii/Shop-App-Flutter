@@ -49,7 +49,7 @@ class Products with ChangeNotifier {
   }
 
   addProduct(Product product) {
-    final url = Uri.https('dark-eel-cardigan.cyclic.app', '/product/create');
+    final url = Uri.https('shop-app-service.onrender.com', '/product/create');
     http
         .post(
       url,
