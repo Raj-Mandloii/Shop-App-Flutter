@@ -8,6 +8,10 @@ class UserProductScreen extends StatelessWidget {
   static const routeName = "/user-products";
   const UserProductScreen({Key? key}) : super(key: key);
 
+  // Future<void> _refreshPro() async{
+  //   return Provider.of<Products>(context,listen: false).fetchData();
+  // make sure to add listen false;
+  // }
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<Products>(context);
@@ -24,16 +28,22 @@ class UserProductScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: productsData.items.length,
-          itemBuilder: (context, i) => UserProductItem(
-              id: productsData.items[i].id,
-              imageUrl: productsData.items[i].imageUrl,
-              title: productsData.items[i].title),
+      body: 
+      // to implement pull to refresh feature;
+      // RefreshIndicator(
+        //  onRefresh: ,
+        // child: 
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: ListView.builder(
+            itemCount: productsData.items.length,
+            itemBuilder: (context, i) => UserProductItem(
+                id: productsData.items[i].id,
+                imageUrl: productsData.items[i].imageUrl,
+                title: productsData.items[i].title),
+          ),
         ),
-      ),
+      // ),
     );
   }
 }
