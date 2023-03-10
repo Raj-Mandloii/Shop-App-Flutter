@@ -17,6 +17,7 @@ class _EditProductState extends State<EditProduct> {
   var _imageUrlController = TextEditingController();
   final _imageUrlFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
+  // var isLoading = false; // you can use this .
   var _editedProduct = Product(
     id: "",
     title: "",
@@ -45,9 +46,8 @@ class _EditProductState extends State<EditProduct> {
     if (_isInit) {
       final productId = ModalRoute.of(context)!.settings.arguments;
       if (productId != null) {
-        print('================================================================ inside edited product:');
-        _editedProduct =
-            Provider.of<Products>(context, listen: false).findById(productId.toString());
+        _editedProduct = Provider.of<Products>(context, listen: false)
+            .findById(productId.toString());
 
         _initValues = {
           "title": _editedProduct.title,
@@ -70,12 +70,8 @@ class _EditProductState extends State<EditProduct> {
   }
 
   void _saveForm() {
-      print('================================================================ SAVE FORM');
-
     final isValid = _form.currentState!.validate();
     if (!isValid) {
-      print('================================================================ NOT VALID');
-
       return;
     }
     _form.currentState!.save();
@@ -83,14 +79,13 @@ class _EditProductState extends State<EditProduct> {
       // update
       Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
-
     } else {
-      print('================================================================ NEW PRODUCT');
       // add.
-      Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+      Provider.of<Products>(context, listen: false)
+          .addProduct(_editedProduct)
+          .then((_) => Navigator.of(context).pop());
     }
     // now to navigate back to the previous page
-    Navigator.of(context).pop();
   }
 
   @override
@@ -108,6 +103,7 @@ class _EditProductState extends State<EditProduct> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: const Text("Edit Product"),
         actions: [
           IconButton(onPressed: _saveForm, icon: const Icon(Icons.done))
@@ -125,13 +121,12 @@ class _EditProductState extends State<EditProduct> {
                 textInputAction: TextInputAction.next,
                 onSaved: (value) {
                   _editedProduct = Product(
-                    title: value!,
-                    description: _editedProduct.description,
-                    imageUrl: _editedProduct.imageUrl,
-                    price: _editedProduct.price,
-                    id: _editedProduct.id,
-                    isFavourite: _editedProduct.isFavourite
-                  );
+                      title: value!,
+                      description: _editedProduct.description,
+                      imageUrl: _editedProduct.imageUrl,
+                      price: _editedProduct.price,
+                      id: _editedProduct.id,
+                      isFavourite: _editedProduct.isFavourite);
                 },
                 validator: (value) {
                   // return null means no error.
@@ -155,7 +150,7 @@ class _EditProductState extends State<EditProduct> {
                     title: _editedProduct.title,
                     description: _editedProduct.description,
                     imageUrl: _editedProduct.imageUrl,
-                     isFavourite: _editedProduct.isFavourite,
+                    isFavourite: _editedProduct.isFavourite,
                     price: double.parse(value!),
                   );
                 },
@@ -183,13 +178,12 @@ class _EditProductState extends State<EditProduct> {
                 focusNode: _descriptionFocusNode,
                 onSaved: (value) {
                   _editedProduct = Product(
-                    id: _editedProduct.id,
-                    title: _editedProduct.title,
-                    description: value!,
-                    imageUrl: _editedProduct.imageUrl,
-                    price: _editedProduct.price,
-                     isFavourite: _editedProduct.isFavourite
-                  );
+                      id: _editedProduct.id,
+                      title: _editedProduct.title,
+                      description: value!,
+                      imageUrl: _editedProduct.imageUrl,
+                      price: _editedProduct.price,
+                      isFavourite: _editedProduct.isFavourite);
                 },
                 validator: (value) {
                   // return null means no error.
@@ -245,13 +239,12 @@ class _EditProductState extends State<EditProduct> {
                       onFieldSubmitted: (_) => _saveForm(),
                       onSaved: (value) {
                         _editedProduct = Product(
-                          id: _editedProduct.id,
-                          title: _editedProduct.title,
-                          description: _editedProduct.description,
-                          imageUrl: value!,
-                          price: _editedProduct.price,
-                           isFavourite: _editedProduct.isFavourite
-                        );
+                            id: _editedProduct.id,
+                            title: _editedProduct.title,
+                            description: _editedProduct.description,
+                            imageUrl: value!,
+                            price: _editedProduct.price,
+                            isFavourite: _editedProduct.isFavourite);
                       },
                     ),
                   ),

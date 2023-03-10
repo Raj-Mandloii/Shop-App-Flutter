@@ -36,7 +36,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: '🛒 Shop App',
         theme: ThemeData(
-            primarySwatch: Colors.indigo,
+          scaffoldBackgroundColor: Colors.blue[300],
+            primarySwatch: Colors.deepPurple,
             accentColor: Colors.deepOrange,
             fontFamily: "Lato"),
         home: ProductOverviewScreen(),
@@ -54,3 +55,7 @@ class MyApp extends StatelessWidget {
 
 //192.168.116.201/
 // 1031
+
+
+// final url = Uri.https('flutter-update.firebaseio.com', '/products.json')
+// http.post(url, ...)

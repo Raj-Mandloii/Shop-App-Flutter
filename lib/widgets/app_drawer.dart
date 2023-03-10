@@ -11,6 +11,7 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
+            elevation: 0,
             title: const Text("🛒"),
             automaticallyImplyLeading: false,
           ),

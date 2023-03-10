@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/product.dart';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http; // this is prifix.
 // here ChangeNotifier is mixin class
 
 class Products with ChangeNotifier {
@@ -47,17 +48,36 @@ class Products with ChangeNotifier {
     return _items.where((element) => element.isFavourite).toList();
   }
 
-  void addProduct(Product product) {
-    final newProduct = Product(
-        id: product.title,
-        title: product.title,
-        price: product.price,
-        description: product.description,
-        imageUrl: product.imageUrl);
+  Future<void> addProduct(Product product) async {
+    // const url = 'https://my-shop-flutter.firebseio.com/products.json';
 
-    // _items.add(newProduct); // to add at the end.
-    _items.insert(0, newProduct); // to add prod at the beginning.
-    notifyListeners();
+    final url = Uri.https('My-Shop-Flutter.firebaseio.com', '/products.json');
+    return http
+        .post(
+      url,
+      body: json.encode({
+        'title': product.title,
+        'description': product.description,
+        'price': product.price,
+        'imageUrl': product.imageUrl,
+        'isFavourite': product.isFavourite,
+      }),
+    )
+        .then((res) {
+      // print('Response status: ${res.statusCode}');
+      // print('Response body: ${res.body}');
+      final newProduct = Product(
+          id: product.title,
+          title: product.title,
+          price: product.price,
+          description: product.description,
+          imageUrl: product.imageUrl);
+
+      // _items.add(newProduct); // to add at the end.
+      _items.insert(0, newProduct); // to add prod at the beginning.
+
+      notifyListeners();
+    });
   }
 
   void updateProduct(String id, Product newProduct) {

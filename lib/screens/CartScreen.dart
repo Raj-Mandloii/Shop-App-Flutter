@@ -13,7 +13,9 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
     return Scaffold(
-      appBar: AppBar(title: Text("Your Cart")),
+      appBar: AppBar(title: Text("Your Cart"),
+      elevation: 0,
+      ),
       body: Column(
         children: [
           Card(

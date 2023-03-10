@@ -13,6 +13,7 @@ class OrdersScreen extends StatelessWidget {
     final orders = Provider.of<Orders>(context);
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: const Text("Your Orders"),
       ),
        drawer: const AppDrawer(),
