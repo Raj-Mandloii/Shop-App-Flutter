@@ -61,8 +61,8 @@ productController.post("/create", async (req, res) => {
   const newProd = new ProductModel(req.body);
 
   try {
-    await newProd.save();
-    res.status(201).send("New Product created");
+    let a = await newProd.save();
+    res.status(201).send(a);
   } catch (err) {
     res.status(500).send("Something went wrong");
   }

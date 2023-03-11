@@ -12,6 +12,10 @@ class UserProductScreen extends StatelessWidget {
   //   return Provider.of<Products>(context,listen: false).fetchData();
   // make sure to add listen false;
   // }
+  Future<void> _refresh(context) async {
+    await Provider.of<Products>(context, listen: false).fetchProduct();
+  }
+
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<Products>(context);
@@ -22,18 +26,21 @@ class UserProductScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(EditProduct.routeName,arguments: null);
+              Navigator.of(context)
+                  .pushNamed(EditProduct.routeName, arguments: null);
             },
             icon: const Icon(Icons.add),
           ),
         ],
       ),
-      body: 
-      // to implement pull to refresh feature;
-      // RefreshIndicator(
-        //  onRefresh: ,
-        // child: 
-        Padding(
+      body:
+          // to implement pull to refresh feature;
+          // RefreshIndicator(
+          //  onRefresh: ,
+          // child:
+          RefreshIndicator(
+        onRefresh: () => _refresh(context),
+        child: Padding(
           padding: const EdgeInsets.all(8),
           child: ListView.builder(
             itemCount: productsData.items.length,
@@ -43,6 +50,7 @@ class UserProductScreen extends StatelessWidget {
                 title: productsData.items[i].title),
           ),
         ),
+      ),
       // ),
     );
   }
