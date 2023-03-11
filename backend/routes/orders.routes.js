@@ -12,8 +12,9 @@ ordersController.use(cors());
 
 ordersController.get("/", async (req, res) => {
   try {
-    let allOrders = OrderModel.find();
-    res.json(allOrders);
+    const data = await OrderModel.find();
+    console.log(data);
+    res.send(data);
   } catch (error) {
     throw new Error(error);
   }
