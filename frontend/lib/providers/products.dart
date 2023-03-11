@@ -49,9 +49,16 @@ class Products with ChangeNotifier {
   }
 
   addProduct(Product product) {
-    final url = Uri.https('shop-app-service.onrender.com', '/product/create');
-    http
-        .post(
+    print(
+        '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+
+    print(product.title);
+    print(product.description);
+    print(product.imageUrl);
+    print(product.price);
+    print(product.isFavourite);
+    final url = Uri.https('shop-app-service.onrender.com', 'product/create');
+    http.post(
       url,
       body: json.encode({
         'title': product.title,
@@ -60,9 +67,10 @@ class Products with ChangeNotifier {
         'imageUrl': product.imageUrl,
         'isFavourite': product.isFavourite,
       }),
-    )
-        .then((res) {
-      print(json.decode(res.body));
+      headers: {"Content-Type": "application/json"},
+    ).then((res) {
+      print("================================================================    ${res.statusCode}");
+      // print(json.decode(res.body));
       final newProduct = Product(
           id: product.title,
           title: product.title,

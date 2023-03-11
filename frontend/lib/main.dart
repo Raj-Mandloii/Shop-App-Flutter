@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: '🛒 Shop App',
         theme: ThemeData(
-          scaffoldBackgroundColor: Colors.blue[300],
+          scaffoldBackgroundColor: Colors.blue[900],
             primarySwatch: Colors.deepPurple,
             accentColor: Colors.deepOrange,
             fontFamily: "Lato"),

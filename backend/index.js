@@ -16,10 +16,9 @@ app.use("/user", userController);
 app.use("/product", productController);
 
 // app.use('/orders',productController)
-  const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, async () => {
-  
   try {
     await connection;
     console.log("Connected to DB");
