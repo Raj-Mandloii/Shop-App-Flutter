@@ -4,6 +4,7 @@ const { userController } = require("./routes/user.routes");
 const { productController } = require("./routes/product.routes");
 const { connection } = require("./config/db");
 const { authentication } = require("./middlewares/authentication");
+const { ordersController } = require("./routes/orders.routes");
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(cors());
 app.use("/user", userController);
 
 app.use("/product", productController);
+app.use("/orders", ordersController);
 
 // app.use('/orders',productController)
 const PORT = process.env.PORT || 8080;
