@@ -1,16 +1,15 @@
 const { Router } = require("express");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt"); // to encrypt user password and save, so that password is not exposed to someone.
+const jwt = require("jsonwebtoken"); // to generate token
 require("dotenv").config();
 const cors = require("cors");
 
 const { ProductModel } = require("../models/product.model");
-const { UserModel } = require("../models/User.model");
 
 const productController = Router();
 
 productController.use(cors());
-
+// Get API.
 productController.get("/", async (req, res) => {
   try {
     // Filtering
@@ -56,8 +55,8 @@ productController.get("/", async (req, res) => {
   }
 });
 
+// Create API.
 productController.post("/create", async (req, res) => {
-  console.log("BODY +++++++++++++++++++++++",req.body);
   const newProd = new ProductModel(req.body);
 
   try {
@@ -68,6 +67,8 @@ productController.post("/create", async (req, res) => {
   }
 });
 
+
+// Edit/Patch/  API
 productController.put("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -81,7 +82,7 @@ productController.put("/:id", async (req, res) => {
     throw new Error(error);
   }
 });
-
+// Delete API
 productController.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
