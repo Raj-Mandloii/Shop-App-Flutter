@@ -1,75 +1,85 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/models/product.dart';
+
+import '../screens/product_detail_screen.dart';
+import '../providers/product.dart';
 import '../providers/cart.dart';
-import 'package:shop_app/providers/products.dart';
-import 'package:shop_app/screens/product_detail_screen.dart';
+import '../providers/auth.dart';
 
 class ProductItem extends StatelessWidget {
-  // const ProductItem(
-  //     {Key? key, required this.id, required this.imageUrl, required this.title})
-  //     : super(key: key);
   // final String id;
   // final String title;
   // final String imageUrl;
+
+  // ProductItem(this.id, this.title, this.imageUrl);
+
   @override
   Widget build(BuildContext context) {
-    // 1st way of consuming data
-    //  final product = Provider.of<Product>(context);
+    final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
-
-    // alternate way to wrap the part of widget to consumer widget.
-    // example below ==>
-    return Consumer<Product>(
-      // about child
-      // you can pass child in consumer
-      // however the child never changes
-      builder: (context, product, child) => ClipRRect(
-        borderRadius: BorderRadius.circular(15),
+    final authData = Provider.of<Auth>(context, listen: false);
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: GridTile(
         child: GestureDetector(
           onTap: () {
-            Navigator.of(context)
-                .pushNamed(ProductDetail.routeName, arguments: product.id);
+            Navigator.of(context).pushNamed(
+              ProductDetailScreen.routeName,
+              arguments: product.id,
+            );
           },
-          child: GridTile(
-            footer: GridTileBar(
-              backgroundColor: Colors.black54,
-              leading: IconButton(
-                icon: Icon(product.isFavourite
-                    ? Icons.favorite
-                    : Icons.favorite_border),
-                onPressed: () => product.toggleFavouriteStatus(),
-                color: Theme.of(context).accentColor,
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.shopping_bag),
-                onPressed: () {
-                  cart.addItem(product.id, product.price, product.title);
-                  // context estaiblish connection between nearet widget.
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text(
-                        "Item added to cart.",
-                      ),
-                      duration: const Duration(seconds: 2),
-                      action: SnackBarAction(label: "Undo", onPressed: () {
-                        cart.removeSingleItem(product.id);
-                      }),
-                    ),
-                  );
-                },
-                color: Theme.of(context).accentColor,
-              ),
-              title: Text(
-                product.title,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            child: Image.network(
-              product.imageUrl,
+          child: Hero(
+            tag: product.id,
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/product-placeholder.png'),
+              image: NetworkImage(product.imageUrl),
               fit: BoxFit.cover,
             ),
+          ),
+        ),
+        footer: GridTileBar(
+          backgroundColor: Colors.black87,
+          leading: Consumer<Product>(
+            builder: (ctx, product, _) => IconButton(
+                  icon: Icon(
+                    product.isFavorite ? Icons.favorite : Icons.favorite_border,
+                  ),
+                  color: Theme.of(context).accentColor,
+                  onPressed: () {
+                    product.toggleFavoriteStatus(
+                      authData.token,
+                      authData.userId,
+                    );
+                  },
+                ),
+          ),
+          title: Text(
+            product.title,
+            textAlign: TextAlign.center,
+          ),
+          trailing: IconButton(
+            icon: Icon(
+              Icons.shopping_cart,
+            ),
+            onPressed: () {
+              cart.addItem(product.id, product.price, product.title);
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Added item to cart!',
+                  ),
+                  duration: Duration(seconds: 2),
+                  action: SnackBarAction(
+                    label: 'UNDO',
+                    onPressed: () {
+                      cart.removeSingleItem(product.id);
+                    },
+                  ),
+                ),
+              );
+            },
+            color: Theme.of(context).accentColor,
           ),
         ),
       ),
