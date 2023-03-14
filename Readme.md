@@ -7,7 +7,7 @@
 
 |     |     |    |    |
 | :-: | :-: |:-: |:-: |
-|  Auth Screen | Home Screen | Cart Screen | Edit Todo |
+|  Auth Screen | Home Screen | Cart Screen | Your Products |
 | <img src="./screenshots/auth.jpg" height="300" /> | <img src="./screenshots/home.jpg" height="300" /> | <img src="./screenshots/orders.jpg" height="300" />  | <img src="./screenshots/your_products.jpg" height="300" />
 
 <!-- ## Auth Screen
